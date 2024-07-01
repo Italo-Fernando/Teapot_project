@@ -4,10 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:pullebyte/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-
-
-
-
 class MeuModalWidget extends StatefulWidget {
   final void Function(String, String) onItemSelected; // Callback
 
@@ -59,7 +55,7 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return StatefulBuilder(
+        return SafeArea(child: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
               height: 400,
@@ -107,6 +103,7 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
               ),
             );
           },
+          ),
         );
       },
     );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pullebyte/Screens/mapa.dart';
 import 'package:pullebyte/theme/colors.dart';
 
 class LiveCard extends StatelessWidget {
@@ -14,7 +15,16 @@ class LiveCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = jsonDecode(jsonData);
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Mapa(stadiumName: data['Estadio']),
+          ),
+        );
+      },
+      child: Container(
       decoration: BoxDecoration(
         color: customColorScheme.primary,
         borderRadius: BorderRadius.circular(20),
@@ -131,6 +141,7 @@ class LiveCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }
