@@ -39,7 +39,7 @@ class CardHolder extends StatelessWidget {
                             List<dynamic> partidas = match['partidas'];
                             return Row(
                               children: partidas.map((partida) {
-                                return partida['Situacao'] != ''
+                                return partida['Situacao'] != 'Encerrado' && partida['Situacao'] != 'Em breve'
                                     ? Padding(
                                         padding: const EdgeInsets.only(right: 10),
                                         child: LiveCard(jsonData: jsonEncode(partida)),
