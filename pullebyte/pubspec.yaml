@@ -45,6 +45,7 @@ dependencies:
   flutter_feather_icons: ^2.0.0+1
   flutter_map: ^7.0.1
   latlong2: ^0.9.1
+  mapbox_gl: ^0.16.0
 
   
 

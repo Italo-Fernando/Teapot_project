@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:pullebyte/keys/api_keys.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:mapbox_gl/mapbox_gl.dart' as mapbox;
 
 class Mapa extends StatefulWidget {
   final String stadiumName;
@@ -43,18 +43,10 @@ class _MapaState extends State<Mapa> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : FlutterMap(
-              options: MapOptions(
-                initialCenter: LatLng(stadiumLatitude!, stadiumLongitude!),
-                initialZoom: 16.58,
-                initialRotation: 60.0,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://api.mapbox.com/styles/v1/luizefz/cly15xlez009301qr14tgf2t6/tiles/256/{z}/{x}/{y}{r}?access_token=$mapboxApiKey',
-                  userAgentPackageName: 'com.pullebyte.app',
-                ),
-              ],
+          : MapboxMap(
+              accessToken: const String.fromEnvironment("ACCESS_TOKEN"),
+              styleString: 'mapbox://styles/mapbox/streets-v12',
+              initialCameraPosition: CameraPosition(target: mapbox.LatLng(stadiumLatitude!, stadiumLongitude!), zoom: 16.58, tilt: 60),
             ),
     );
   }
