@@ -7,7 +7,7 @@ import 'package:mapbox_gl/mapbox_gl.dart' as mapbox;
 
 class Mapa extends StatefulWidget {
   final String stadiumName;
-  const Map({super.key, required this.stadiumName});
+  const Mapa({super.key, required this.stadiumName});
 
   @override
   _MapaState createState() => _MapaState();
