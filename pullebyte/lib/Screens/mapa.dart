@@ -25,7 +25,8 @@ class _MapaState extends State<Mapa> {
   }
 
   Future<void> _fetchGeoMapData(String stadiumName) async {
-    final String url = 'https://api.distancematrix.ai/maps/api/geocode/json?key=${String.fromEnvironment("GEO_ACCESS_TOKEN")}&address=$stadiumName';
+    const geoToken = String.fromEnvironment("GEO_ACCESS_TOKEN");
+    final String url = 'https://api.distancematrix.ai/maps/api/geocode/json?key=$geoToken&address=$stadiumName stadium';
     final response = await http.get(Uri.parse(url));
     final data = json.decode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -51,5 +52,3 @@ class _MapaState extends State<Mapa> {
     );
   }
 }
-
- 
