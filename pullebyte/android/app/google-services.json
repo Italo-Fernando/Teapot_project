@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "917798129834",
+    "project_id": "pullebyte-418",
+    "storage_bucket": "pullebyte-418.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917798129834:android:603355c271c569197400d3",
+        "android_client_info": {
+          "package_name": "com.example.pullebyte"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUzo_Wglk4tEHzzPkoTsBtbR79PBih4jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
