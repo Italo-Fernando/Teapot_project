@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/CustomWidgets/main_text.dart';
 import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/controller_Database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class TelaLogin extends StatelessWidget {
-  final String assetName = 'lib/Assets/Soccer-cuate.svg';
+class LoginScreen extends StatelessWidget {
+  final DatabaseController _databaseController = DatabaseController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  const TelaLogin({super.key}); // Adiciona um parâmetro de chave ao construtor
+  LoginScreen({Key? key}) : super(key: key);
+
+  void _login(BuildContext context) async {
+  User? user = await _databaseController.signInWithEmailAndPassword(
+    _emailController.text,
+    _passwordController.text,
+  );
+  if (user != null) {
+    await _databaseController.addUser(user.uid, user.email!);
+    Navigator.of(context).pop(); // Fechar o popup
+    Navigator.pushNamed(context, '/home'); // Navegar para a tela inicial
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Erro ao fazer login')),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
+    final String assetName = 'lib/Assets/Soccer-cuate.svg';
     return Scaffold(
       backgroundColor: customColorScheme.background,
       appBar: AppBar(
@@ -37,8 +59,7 @@ class TelaLogin extends StatelessWidget {
           Column(
             children: <Widget>[
               Expanded(
-                child: SvgPicture.asset(
-                  assetName,
+                child: SvgPicture.asset(assetName,
                   fit: BoxFit.contain,
                   semanticsLabel: 'Soccer Image',
                 ),
@@ -48,18 +69,22 @@ class TelaLogin extends StatelessWidget {
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(height: 16),
-                      const TextFieldSample(hintText: "Email", isSenha: false),
+                       TextFieldSample(
+                        controller:_emailController, 
+                        hintText: "Email", 
+                        isSenha: false,),
                       const SizedBox(height: 16),
-                      const TextFieldSample(hintText: "Senha", isSenha: true),
+                       TextFieldSample(
+                      controller: _passwordController, 
+                      hintText: "Senha", 
+                      isSenha: true,),
                       const SizedBox(height: 24),
                       MainButton(
                         text: "Login",
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/home');
-                        },
-                      ),
+                        onPressed:() => _login(context)),
+              
                       const SizedBox(height: 20),
 
                       const LinkAndText(

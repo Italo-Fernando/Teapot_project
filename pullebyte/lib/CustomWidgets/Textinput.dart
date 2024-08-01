@@ -5,9 +5,11 @@ import 'package:pullebyte/theme/colors.dart';
 class TextFieldSample extends StatelessWidget {
   final String hintText;
   final bool isSenha;
+  final TextEditingController controller;
 
   const TextFieldSample({
     super.key,
+    required this.controller,
     required this.hintText,
     required this.isSenha,
   });
@@ -24,6 +26,7 @@ class TextFieldSample extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: TextField(
+          controller: controller, 
           cursorRadius: const Radius.circular(8),
           obscureText: isSenha,
           style: const TextStyle(color: CustomColors.accentColor),

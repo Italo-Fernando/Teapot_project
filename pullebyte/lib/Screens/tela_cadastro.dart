@@ -1,79 +1,78 @@
-// tela_cadastro.dart
-
 import 'package:flutter/material.dart';
-import 'package:pullebyte/CustomWidgets/logo_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
+import 'package:pullebyte/controller_Database.dart';
 
-class TelaCadastro extends StatelessWidget {
-  final String assetName = 'lib/Assets/Icon_cadastro.svg';
+class CadastroScreen extends StatelessWidget {
+  final DatabaseController _databaseController = DatabaseController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
-  const TelaCadastro({super.key}); // Adiciona um parâmetro de chave ao construtor
+  CadastroScreen({Key? key}) : super(key: key);
+
+  void _register(BuildContext context) async {
+    User? user = await _databaseController.registerWithEmailAndPassword(
+      _emailController.text,
+      _passwordController.text,
+      _usernameController.text,
+    );
+    if (user != null) {
+      Navigator.pushNamed(context, '/home'); // Navegar para a tela inicial
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao fazer cadastro')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final String assetName = 'lib/Assets/Icon_cadastro.svg';
     return Scaffold(
       backgroundColor: customColorScheme.background,
-       appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
         toolbarHeight: 110,
-        leadingWidth: 300,
-        leading: Container(
-          padding: const EdgeInsets.only(left: 16),
-          child: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.chevron_left_sharp), // Usa um construtor const
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 2),
-                child: LogoHeader(),
-              ),
-            ],
-          ),
-        ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(
-                child: SvgPicture.asset(
-                  assetName,
-                  fit: BoxFit.contain, // Usa BoxFit.contain para manter a proporção da imagem
-                  semanticsLabel: 'Logo',
-                  height: 500,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child:Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const TextFieldSample(hintText: 'Nome de Usuário', isSenha: false,),
-                    const SizedBox(height: 16),
-                    const TextFieldSample(hintText: "Email", isSenha: false),
-                    const SizedBox(height: 16),
-                    const TextFieldSample(hintText: "Senha", isSenha: true),
-                    const SizedBox(height: 24),
-                    MainButton(text: "Cadastrar",onPressed: () {
-                        Navigator.pushNamed(context, '/home');
-                      },),
-                    const SizedBox(height: 24),                     
-                  ],
-                ),
-              ),
-              )
-            ],
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SvgPicture.asset(
+              assetName,
+              height: 150,
+            ),
+            SizedBox(height: 20),
+            TextFieldSample(
+              controller: _usernameController,
+              hintText: 'Nome de Usuário',
+              isSenha: false,
+            ),
+            SizedBox(height: 20),
+            TextFieldSample(
+              controller: _emailController,
+              hintText: 'Email',
+              isSenha: false,
+            ),
+            SizedBox(height: 20),
+            TextFieldSample(
+              controller: _passwordController,
+              hintText: 'Senha',
+              isSenha: true,
+            ),
+            SizedBox(height: 20),
+            MainButton(
+              text: 'Cadastrar',
+              onPressed: () => _register(context),
+            ),
+          ],
+        ),
       ),
     );
   }

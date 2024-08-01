@@ -13,6 +13,22 @@ class FiltroTime extends StatefulWidget {
 class _FiltroTimeState extends State<FiltroTime> {
   final FiltroTimeLogic filtroTimeLogic = FiltroTimeLogic();
 
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarFiltros();
+  }
+
+  Future<void> _carregarFiltros() async {
+    try {
+      await filtroTimeLogic.carregarFiltrosDoFirestore();
+      setState(() {});
+    } catch (e) {
+      print('Erro ao carregar filtros: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -52,43 +68,43 @@ class _FiltroTimeState extends State<FiltroTime> {
                       });
                     },
                     onLongPress: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Excluir Filtro?'),
-                            content: Text(
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Excluir Filtro?'),
+                          content: Text(
                                 'Deseja excluir o Filtro ${time['nome']}?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Cancelar'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    filtroTimeLogic.excluirTime(index);
-                                  });
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Excluir'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  );
-                }),
-                MeuModalWidget(
-                  onItemSelected: (nome, escudoUrl) {
-                    setState(() {
-                      filtroTimeLogic.adicionarTime(nome, escudoUrl, context);
-                    });
+                                                      actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  filtroTimeLogic.excluirTime(index);
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Excluir'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
-                ),
+                );
+               }),
+               MeuModalWidget(
+                onItemSelected: (nome, escudoUrl) {
+                  setState(() {
+                    filtroTimeLogic.adicionarTime(nome, escudoUrl, context);
+                  });
+                },
+             ),
               ],
             ),
           ),
