@@ -50,6 +50,9 @@ class FiltroTimeLogic {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+        if (timesSelecionados.isEmpty) {
+          return;
+        }
         await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)

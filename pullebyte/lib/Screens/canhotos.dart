@@ -15,7 +15,7 @@ class _CanhotosState extends State<Canhotos> with AutomaticKeepAliveClientMixin 
     return Scaffold(
       body: Stack(
         children: [
-          const CustomAppBar(),
+          CustomAppBar(),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

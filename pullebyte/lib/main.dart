@@ -30,7 +30,7 @@ void main() async {
     routes: {
       '/tela_login': (context) =>  LoginScreen(),
       '/tela_cadastro': (context) =>  CadastroScreen(),
-      '/home': (context) =>  Scaffold(
+      '/home': (context) =>  const Scaffold(
         body:  Home(),
         bottomNavigationBar: HomeScreen(),
       ),

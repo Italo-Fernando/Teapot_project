@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -7,16 +5,26 @@ class DatabaseController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
   Future<void> addUser(String userId, String email) async {
     try {
-      await _firestore.collection('users').doc(userId).set({
-        'email': email,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      DocumentSnapshot snapshot = await _firestore.collection('users').doc(userId).get();
+      if (!snapshot.exists) {
+        await _firestore.collection('users').doc(userId).set({
+          'email': email,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      } else {
+        print('Usuário já existe no Firestore');
+      }
     } catch (e) {
       print('Erro ao adicionar usuário: $e');
     }
   }
+
   // Método para autenticação
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
@@ -48,28 +56,4 @@ class DatabaseController {
       return null;
     }
   }
-
-
-  // Método para carregar filtros do Firestore
-  Future<void> carregarFiltrosDoFirestore() async {
-    try {
-      QuerySnapshot querySnapshot = await _firestore.collection('filtros').get();
-      // Processar os dados dos filtros conforme necessário
-    } catch (e) {
-      print('Erro ao carregar filtros: $e');
-    }
-  }
-
-
-  // Método para buscar dados de partidas
-  Future<List<dynamic>> fetchMatchData() async {
-    const url = 'https://pullebyte.onrender.com/matches-data';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to load match data');
-    }
-  }
-} 
+}

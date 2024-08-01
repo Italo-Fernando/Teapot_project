@@ -6,7 +6,7 @@ import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/CustomWidgets/main_text.dart';
 import 'package:pullebyte/theme/colors.dart';
-import 'package:pullebyte/controller_Database.dart';
+import 'package:pullebyte/controller_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({super.key});
 
   void _login(BuildContext context) async {
   User? user = await _databaseController.signInWithEmailAndPassword(
@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String assetName = 'lib/Assets/Soccer-cuate.svg';
+    const String assetName = 'lib/Assets/Soccer-cuate.svg';
     return Scaffold(
       backgroundColor: customColorScheme.background,
       appBar: AppBar(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_gl/mapbox_gl.dart' as mapbox;
+import '../../firebase_options.dart';
 
 class Mapa extends StatefulWidget {
   final String stadiumName;
@@ -24,7 +25,7 @@ class _MapaState extends State<Mapa> {
   }
 
   Future<void> _fetchGeoMapData(String stadiumName) async {
-    const geoToken = String.fromEnvironment("GEO_ACCESS_TOKEN");
+    final geoToken = DefaultFirebaseOptions.DistanceMatrixKey;
     final String url = 'https://api.distancematrix.ai/maps/api/geocode/json?key=$geoToken&address=$stadiumName stadium';
     final response = await http.get(Uri.parse(url));
     final data = json.decode(utf8.decode(response.bodyBytes));
@@ -44,7 +45,7 @@ class _MapaState extends State<Mapa> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : MapboxMap(
-              accessToken: const String.fromEnvironment("ACCESS_TOKEN"),
+              accessToken: DefaultFirebaseOptions.MapboxKey,
               styleString: 'mapbox://styles/mapbox/streets-v12',
               initialCameraPosition: CameraPosition(target: mapbox.LatLng(stadiumLatitude!, stadiumLongitude!), zoom: 16.58, tilt: 60),
             ),

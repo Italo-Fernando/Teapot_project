@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/controller_Database.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String icon = 'lib/Assets/Icon_widget.svg';
+  final DatabaseController _databaseController = DatabaseController();
+  CustomAppBar({super.key});
 
-  const CustomAppBar({super.key});
+  void _logout(BuildContext context) async {
+    _databaseController.signOut();
+    Navigator.pushNamed(context, '/tela_login');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   semanticsLabel: 'Icon',
                 ),
                 onPressed: () {
+                  _logout(context);
                   // Adicione a ação que você deseja realizar ao clicar no ícone aqui
                 },
               ),
@@ -50,5 +57,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

@@ -50,7 +50,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const CustomAppBar(),
+                CustomAppBar(),
                 const FiltroTime(),
                 CardHolder(
                   matchesData: matchesData,
