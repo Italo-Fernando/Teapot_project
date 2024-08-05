@@ -7,6 +7,7 @@ class MatchCalendarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final screenWidth = MediaQuery.of(context).size.width;
 
     final width = screenWidth * 0.85;
