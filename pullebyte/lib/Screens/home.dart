@@ -56,7 +56,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   matchesData: matchesData,
                   isLoading: isLoading,
                 ),
-                CalendarGameMatch(),
+                CalendarGameMatch(
+                  matchesData: matchesData,
+                  isLoading: isLoading,
+                ),
               ],
             ),
           ),

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/matchs_calendar.dart';
+import 'dart:convert';
 
 class CalendarGameMatch extends StatelessWidget {
-  const CalendarGameMatch({super.key});
+  final List<dynamic> matchesData;
+  final bool isLoading;
+
+  const CalendarGameMatch(
+      {super.key, required this.matchesData, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -13,18 +18,35 @@ class CalendarGameMatch extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 25),
-              const Text("Jogos futuros", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 18),
-              Column(
-                children: List.generate(
-                  10,
-                  (index) => const Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: MatchCalendarCard(),
-                  ),
-                ).toList(),
+              const SizedBox(
+                height: 20,
               ),
+              const Text(
+                "Próximos Jogos",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 10),
+              isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: matchesData.map<Widget>((match) {
+                        List<dynamic> partidas = match['partidas'];
+                        return Column(
+                          children: partidas.map<Widget>((partida) {
+                            return partida['Situacao'] == 'Em breve'
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    child: MatchCalendarCard(
+                                        jsonData: jsonEncode(partida)),
+                                  )
+                                : const SizedBox.shrink();
+                          }).toList(),
+                        );
+                      }).toList(),
+                    ),
             ],
           ),
         ),
