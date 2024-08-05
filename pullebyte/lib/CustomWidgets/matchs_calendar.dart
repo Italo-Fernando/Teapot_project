@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pullebyte/Screens/mapa.dart';
 import 'package:pullebyte/theme/colors.dart';
@@ -13,9 +12,17 @@ class MatchCalendarCard extends StatelessWidget {
     return 'https://pullebyte.onrender.com/get_escudo_image/$id';
   }
 
+  String processCampeonato(String campeonato) {
+    if (campeonato.contains(' - ')) {
+      var parts = campeonato.split(' - ');
+      return '${parts[0].substring(0, 4)}. ${parts[1]}';
+    } else {
+      return campeonato;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     Map<String, dynamic> data = jsonDecode(jsonData);
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -38,27 +45,34 @@ class MatchCalendarCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "${data['Dt']}", // "12/12/2021",ou seja, data da partida
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(maxWidth: 130),
+                      child: Text(
+                        processCampeonato(data['Campeonato']), // Label Bas. Série A ou nome do camp completo
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    "${data['Hora']}", // "12:00",ou seja, horário da partida
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(
+                      width: 4,
                     ),
-                  ),
-                ],
+                    Text(
+                      "${data['Hora']}", // "12:00",ou seja, horário da partida
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -90,7 +104,7 @@ class MatchCalendarCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Container(
-                        constraints: const BoxConstraints(maxWidth: 80),
+                        constraints: const BoxConstraints(maxWidth: 70),
                         child: Text(
                           "${data['EquipeMand']}",
                           style: TextStyle(
@@ -108,7 +122,7 @@ class MatchCalendarCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        constraints: const BoxConstraints(maxWidth: 80),
+                        constraints: const BoxConstraints(maxWidth: 70),
                         child: Text(
                           "${data["EquipeAdv"]}",
                           style: TextStyle(
@@ -161,24 +175,15 @@ class MatchCalendarCard extends StatelessWidget {
                       children: [
                         Text(
                           "1 ",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                         Text(
                           " | ",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                         ),
                         Text(
                           "0.0",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ],
                     ),
@@ -195,24 +200,15 @@ class MatchCalendarCard extends StatelessWidget {
                       children: [
                         Text(
                           "x ",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                         Text(
                           " | ",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                         ),
                         Text(
                           "0.0",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ],
                     ),
@@ -229,24 +225,15 @@ class MatchCalendarCard extends StatelessWidget {
                       children: [
                         Text(
                           "2 ",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                         Text(
                           " | ",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                         ),
                         Text(
                           "0.0",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ],
                     ),
